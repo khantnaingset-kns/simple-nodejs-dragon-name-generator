@@ -1,0 +1,28 @@
+{
+  "name": "nodejs-wizard-name-generator",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.mjs",
+    "lint": "npx eslint ./"
+  },
+  "keywords": [],
+  "author": "Khant Naing Set (WOps)",
+  "license": "MIT",
+  "description": "Just a sample Wizard Name Generator",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "express": "^4.19.2",
+    "fantasy-name-generator": "^2.0.0",
+    "helmet": "^7.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "eslint": "^8.57.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.6.0",
+    "globals": "^15.9.0"
+  }
+}
