@@ -72,6 +72,6 @@ jobs:
             REPOSITORY: dragon-name-generator
             IMAGE_TAG: ${{ github.sha }}
         run: |
-            docker build -t public.ecr.aws/i9q3c3r2/dragon-name-generator:$IMAGE_TAG .
-            docker push public.ecr.aws/i9q3c3r2/dragon-name-generator:$IMAGE_TAG
+            docker build -t public.ecr.aws/i9q3c3r2/dragon-name-generator .
+            docker push public.ecr.aws/i9q3c3r2/dragon-name-generator
       
