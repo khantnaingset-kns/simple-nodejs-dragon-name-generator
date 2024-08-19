@@ -66,12 +66,12 @@ jobs:
           echo ${{ steps.login-ecr.outputs.registry }}
 
 
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-and-push
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: public.ecr.aws/i9q3c3r2/dragon-name-generator:latest
+      - name: Build, tag, and push docker image to Amazon ECR
+        env:
+            REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+            REPOSITORY: dragon-name-generator
+            IMAGE_TAG: ${{ github.sha }}
+        run: |
+            docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+            docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
       
