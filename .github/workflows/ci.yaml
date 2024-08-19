@@ -73,5 +73,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/dragon-name-generator:latest
+          tags: public.ecr.aws/i9q3c3r2/dragon-name-generator:latest
       
