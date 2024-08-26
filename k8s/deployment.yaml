@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dragon-name-generator-api
+  annotations:
+    imageRegistry: "Amazon ECR"
+    app.owner: wops
+    app.author: khant-naing-set
+  labels:
+    app: dragon-name-generator
+    version: 0.0.1
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: dragon-name-generator
+    template:
+      metadata:
+        labels:
+          app: dragon-name-generator
+      spec:
+        containers:
+          - name: dragon-name-generator-api
+            image: ""
+            ports:
+              - containerPort: 3000

@@ -15,6 +15,7 @@ env:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -36,9 +37,29 @@ jobs:
       - name: Lint the Code
         run: npm run lint
 
+  codeScan:
+    name: Code Scanning
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=${{secrets.SONAR_ORG}}
+            -Dsonar.projectKey=${{secrets.SONAR_PROJECT_KEY}}
+            -Dsonar.sources=.
+
   dockernize:
     name: Dockernize
-    needs: [build]
+    needs: [codeScan]
     runs-on: ubuntu-latest
     permissions:
       contents: read

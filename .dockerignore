@@ -27,3 +27,7 @@ build/Release
 node_modules
 
 src/*.spec.js
+
+k8s
+
+LICENSE
