@@ -106,7 +106,7 @@ jobs:
           REPO_NAME: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}
           TAGS: ${{ steps.meta.outputs.tags }}
         with:
-          image-ref: "$REPO_NAME:$TAGS"
+          image-ref: "${{env.REPO_NAME}}:${{env.TAGS}}"
           format: "table"
           exit-code: "1"
           ignore-unfixed: true
