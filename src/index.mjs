@@ -10,19 +10,30 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(helmet());
 
-const errorHandler = (err, req, res) => {
+
+// eslint-disable-next-line no-unused-vars
+const errorHandler = (err, req, res, next) => {
   console.error(chalk.red(err.stack));
-  res.status(500).json({ error: "Internal Server Error" });
+  res.status(500).send("Something broke!");
 };
 
-app.get("/:gender", (req, res) => {
-  const { gender } = req.params;
-  if (!["male", "female"].includes(gender)) {
-    return res.status(400).json({ error: "Invalid gender type" });
+app.get("/:gender", (req, res, next) => {
+  try {
+    const { gender } = req.params;
+    if (!["male", "female"].includes(gender)) {
+      return res.json({ error: "Invalid gender type" });
+    }
+    const dragonName = nameByRace("dragon", { gender });
+    res.status(200).json({ name: dragonName });
+  } catch (error) {
+    next(error);
   }
-  const dragonName = nameByRace("dragon", { gender });
-  res.json({ name: dragonName });
 });
+
+app.get("*", (req, res) => {
+  res.sendStatus(404);
+});
+
 
 app.use(errorHandler);
 
