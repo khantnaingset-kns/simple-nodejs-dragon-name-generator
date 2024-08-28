@@ -28,6 +28,6 @@ node_modules
 
 src/*.spec.js
 
-k8s
+manifests
 
 LICENSE
