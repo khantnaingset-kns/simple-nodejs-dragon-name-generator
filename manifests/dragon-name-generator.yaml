@@ -24,18 +24,21 @@ metadata:
     app: dragon-name-generator
     version: 0.0.1
 spec:
-    replicas: 2
-    selector:
-      matchLabels:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dragon-name-generator
+  template:
+    metadata:
+      labels:
         app: dragon-name-generator
-    template:
-      metadata:
-        labels:
-          app: dragon-name-generator
-      spec:
-        containers:
-          - name: dragon-name-generator-api
-            image: 339712825319.dkr.ecr.us-east-1.amazonaws.com/dragon-name-generator:latest
-            ports:
-              - containerPort: 3000
-
+    spec:
+      containers:
+        - name: dragon-name-generator-api
+          image: 339712825319.dkr.ecr.us-east-1.amazonaws.com/dragon-name-generator:latest
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
