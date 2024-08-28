@@ -55,7 +55,7 @@ jobs:
             -Dsonar.organization=${{secrets.SONAR_ORG}}
             -Dsonar.projectKey=${{secrets.SONAR_PROJECT_KEY}}
             -Dsonar.sources=.
-            -Dsonar.coverage.skip=true
+            -Dsonar.coverage.exclusions=**/*
 
   dockernize:
     name: Dockernize
