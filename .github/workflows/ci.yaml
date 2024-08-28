@@ -107,21 +107,22 @@ jobs:
           TAGS: ${{ steps.meta.outputs.tags }}
         with:
           image-ref: "${{env.REPO_NAME}}:${{env.TAGS}}"
-          format: "table"
           exit-code: "1"
           ignore-unfixed: true
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
-
-      - name: Build, tag, and push image to Amazon ECR
-        if: github.ref == 'refs/heads/main'
-        id: build-and-push
-        uses: docker/build-push-action@v6
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+      
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
         with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          provenance: false
-          tags: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+            sarif_file: 'trivy-results.sarif'
+      
+      - name: Push Image to ECR
+        env: 
+          REPO_NAME: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}
+          TAGS: ${{ steps.meta.outputs.tags }}
+        run: |
+          docker push $REPO_NAME:$TAGS
