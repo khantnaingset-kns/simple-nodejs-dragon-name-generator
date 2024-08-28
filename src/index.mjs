@@ -10,6 +10,8 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(helmet());
 
+
+// eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
   console.error(chalk.red(err.stack));
   res.status(500).send("Something broke!");

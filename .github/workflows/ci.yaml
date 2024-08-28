@@ -57,7 +57,6 @@ jobs:
             -Dsonar.sources=.
 
   dockernize:
-    if: github.ref == 'refs/heads/main'
     name: Dockernize
     needs: [codeScan]
     runs-on: ubuntu-latest
@@ -81,8 +80,10 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+      
 
       - name: Build, tag, and push image to Amazon ECR
+        if: github.ref == 'refs/heads/main'
         id: build-and-push
         uses: docker/build-push-action@v6
         with:
