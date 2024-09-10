@@ -10,7 +10,6 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(helmet());
 
-
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
   console.error(chalk.red(err.stack));
@@ -33,7 +32,6 @@ app.get("/:gender", (req, res, next) => {
 app.get("*", (req, res) => {
   res.sendStatus(404);
 });
-
 
 app.use(errorHandler);
 
