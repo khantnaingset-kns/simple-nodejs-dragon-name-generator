@@ -104,13 +104,14 @@ jobs:
           --cache-from type=registry,ref=$REPO_NAME:cache .
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.20.0
+        uses: aquasecurity/trivy-action@0.28.0
         env:
           REPO_NAME: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}
           TAGS: ${{ steps.meta.outputs.tags }}
         with:
           image-ref: "${{env.REPO_NAME}}:${{env.TAGS}}"
-          format: 'table'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
           exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
