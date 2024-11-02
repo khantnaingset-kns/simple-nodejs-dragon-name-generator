@@ -106,12 +106,11 @@ jobs:
           TAGS: ${{ steps.meta.outputs.tags }}
         with:
           image-ref: "${{env.REPO_NAME}}:${{env.TAGS}}"
-          scan-type: "fs"
-          format: table
-          scan-ref: .
-          severity: HIGH,CRITICAL
+          format: 'table'
+          exit-code: '1'
           ignore-unfixed: true
-          exit-code: 1
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
     
       
       - name: Push Image to DOCKERHUB
