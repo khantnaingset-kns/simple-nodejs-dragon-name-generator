@@ -94,7 +94,7 @@ jobs:
           REPO_NAME: ${{ secrets.DOCKERHUB_REPO_NAME }}
           TAGS: ${{ steps.meta.outputs.tags }}
         run: |
-          docker buildx build --platform=amd64/linux -t $REPO_NAME:$TAGS --load \
+          docker buildx build --platform=amd64/linux -t $REPO_NAME:$TAGS . --load \
           --cache-from type=registry,ref=$REPO_NAME:buildcache \
           --cache-to type=registry,ref=$REPO_NAME:buildcache,mode=max
           
