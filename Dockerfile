@@ -8,7 +8,7 @@ RUN npm install --omit=dev
 
 COPY src/. .
 
-FROM gcr.io/distroless/nodejs22-debian11:nonroot AS runtime
+FROM build AS runtime
 
 WORKDIR /app
 
