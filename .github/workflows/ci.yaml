@@ -93,7 +93,7 @@ jobs:
           REPO_NAME: ${{ secrets.DOCKERHUB_REPO_NAME }}
           TAGS: latest 
         run: |
-          docker buildx build --platform linux/amd64,linux/386,linux/arm/v7 -t $REPO_NAME:$TAGS .
+          docker buildx build --platform linux/amd64,linux/386 -t $REPO_NAME:$TAGS .
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.28.0
