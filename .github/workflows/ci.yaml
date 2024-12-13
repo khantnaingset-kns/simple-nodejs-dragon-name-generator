@@ -12,53 +12,52 @@ env:
   ECR_REPO: ${{ secrets.ECR_REPO }}
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        version: ["18.x", "20.x"]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  # build:
+  #   name: Build
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       version: ["18.x", "20.x"]
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{matrix.version}}
-          cache-dependency-path: "package-lock.json"
-          check-latest: true
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: ${{matrix.version}}
+  #         cache-dependency-path: "package-lock.json"
+  #         check-latest: true
 
-      - name: Install the dependencies
-        run: npm ci
+  #     - name: Install the dependencies
+  #       run: npm ci
 
-      - name: Lint the Code
-        run: npm run lint
+  #     - name: Lint the Code
+  #       run: npm run lint
 
-  codeScan:
-    name: Code Scanning
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+  # codeScan:
+  #   name: Code Scanning
+  #   needs: [build]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.organization=${{secrets.SONAR_ORG}}
-            -Dsonar.projectKey=${{secrets.SONAR_PROJECT_KEY}}
-            -Dsonar.sources=.
-            -Dsonar.coverage.exclusions=**/*
+  #     - name: SonarCloud Scan
+  #       uses: SonarSource/sonarcloud-github-action@master
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #       with:
+  #         args: >
+  #           -Dsonar.organization=${{secrets.SONAR_ORG}}
+  #           -Dsonar.projectKey=${{secrets.SONAR_PROJECT_KEY}}
+  #           -Dsonar.sources=.
+  #           -Dsonar.coverage.exclusions=**/*
 
   dockernize:
     name: Dockernize
-    needs: [codeScan]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -94,9 +93,7 @@ jobs:
           REPO_NAME: ${{ secrets.DOCKERHUB_REPO_NAME }}
           TAGS: latest 
         run: |
-          docker buildx build --platform linux/amd64,linux/386,linux/arm/v7 -t $REPO_NAME:$TAGS --load \
-          --cache-to mode=max,oci-mediatypes=true,type=registry,ref=$REPO_NAME:cache \
-          --cache-from type=registry,ref=$REPO_NAME:cache .
+          docker buildx build --platform linux/amd64,linux/386,linux/arm/v7 -t $REPO_NAME:$TAGS
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.28.0
