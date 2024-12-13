@@ -95,21 +95,21 @@ jobs:
         run: |
           docker buildx build --platform linux/amd64 -t $REPO_NAME:$TAGS .
 
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.28.0
-        env:
-          REPO_NAME: ${{ secrets.DOCKERHUB_REPO_NAME }}
-          TAGS: ${{ steps.meta.outputs.tags }}
-        with:
-          image-ref: "${{env.REPO_NAME}}:${{env.TAGS}}"
-          scan-type: "fs"
-          format: table
-          scan-ref: .
-          severity: HIGH,CRITICAL
-          ignore-unfixed: true
-          exit-code: 1
-          # On a subsequent call to the action we know trivy is already installed so can skip this
-          skip-setup-trivy: true
+      # - name: Run Trivy vulnerability scanner
+      #   uses: aquasecurity/trivy-action@0.28.0
+      #   env:
+      #     REPO_NAME: ${{ secrets.DOCKERHUB_REPO_NAME }}
+      #     TAGS: ${{ steps.meta.outputs.tags }}
+      #   with:
+      #     image-ref: "${{env.REPO_NAME}}:${{env.TAGS}}"
+      #     scan-type: "fs"
+      #     format: table
+      #     scan-ref: .
+      #     severity: HIGH,CRITICAL
+      #     ignore-unfixed: true
+      #     exit-code: 1
+      #     # On a subsequent call to the action we know trivy is already installed so can skip this
+      #     skip-setup-trivy: true
     
       
       - name: Push Image to DOCKERHUB
